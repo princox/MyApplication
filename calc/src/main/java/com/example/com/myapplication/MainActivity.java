@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(getApplicationContext(),"숫자를 넣어주세요", Toast.LENGTH_SHORT).show();
         }
         else{
+            //
         }
         switch (v.getId()){
             case R.id.BtnAdd:
