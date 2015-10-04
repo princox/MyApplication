@@ -3,94 +3,138 @@ package com.example.com.myapplication;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    EditText edit1;
-    EditText edit2;
-    Button btnAdd;
-    Button btnMul;
-    Button btnDiv;
-    Button btnMod;
-    Button btnSub;
+
+//public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
+
+    EditText edit1, edit2;
+    Button btnAdd, btnSub, btnMul, btnDiv, btnRem;
     TextView textResult;
+    String num1, num2;
+    Double result; // 실수값으로 계산
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTitle("초간단 계산기(수정)");
 
-        EditText edit1 = (EditText) findViewById(R.id.Edit1);
-        EditText edit2 = (EditText) findViewById(R.id.Edit2);
-        Button btnAdd = (Button) findViewById(R.id.BtnAdd);
-        Button btnSub = (Button) findViewById(R.id.BtnSub);
-        Button btnMul = (Button) findViewById(R.id.BtnMul);
-        Button btnDiv = (Button) findViewById(R.id.BtnDiv);
-        Button btnMod = (Button) findViewById(R.id.BtnMod);
-        TextView textResult = (TextView) findViewById(R.id.TextResult);
+        edit1 = (EditText) findViewById(R.id.Edit1);
+        edit2 = (EditText) findViewById(R.id.Edit2);
 
-        String num1, num2;
-        Integer result;
-        btnAdd.setOnClickListener(this);
-        btnDiv.setOnClickListener(this);
-        btnSub.setOnClickListener(this);
-        btnMul.setOnClickListener(this);
-        btnMod.setOnClickListener(this);
+        btnAdd = (Button) findViewById(R.id.BtnAdd);
+        btnSub = (Button) findViewById(R.id.BtnSub);
+        btnMul = (Button) findViewById(R.id.BtnMul);
+        btnDiv = (Button) findViewById(R.id.BtnDiv);
+        btnRem = (Button) findViewById(R.id.BtnRem);
+
+        textResult = (TextView) findViewById(R.id.TextResult);
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                num1 = edit1.getText().toString();
+                num2 = edit2.getText().toString();
+                // num1이나 num2가 비어 있다면
+                if (num1.trim().equals("") || num2.trim().equals("")) {
+                    Toast.makeText(getApplicationContext(), "입력 값이 비었습니다", 0)
+                            .show();
+                } else {
+                    result = Double.parseDouble(num1)
+                            + Double.parseDouble(num2);
+                    textResult.setText("계산 결과 : " + result.toString());
+                }
+            }
+        });
+
+        btnSub.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                num1 = edit1.getText().toString();
+                num2 = edit2.getText().toString();
+
+                // num1이나 num2가 비어 있다면
+                if (num1.trim().equals("") || num2.trim().equals("")) {
+                    Toast.makeText(getApplicationContext(), "입력 값이 비었습니다", Toast.LENGTH_SHORT)
+                            .show();
+                } else {
+                    result = Double.parseDouble(num1)
+                            - Double.parseDouble(num2);
+                    textResult.setText("계산 결과 : " + result.toString());
+                }
+
+            }
+        });
+
+        btnMul.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                num1 = edit1.getText().toString();
+                num2 = edit2.getText().toString();
+                // num1이나 num2가 비어 있다면
+                if (num1.trim().equals("") || num2.trim().equals("")) {
+                    Toast.makeText(getApplicationContext(), "입력 값이 비었습니다", 1000)
+                            .show();
+                } else {
+                    result = Double.parseDouble(num1)
+                            * Double.parseDouble(num2);
+                    textResult.setText("계산 결과 : " + result.toString());
+                }
+
+            }
+        });
+
+        btnDiv.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                num1 = edit1.getText().toString();
+                num2 = edit2.getText().toString();
+                // num1이나 num2가 비어 있다면
+                if (num1.trim().equals("") || num2.trim().equals("")) {
+                    Toast.makeText(getApplicationContext(), "입력 값이 비었습니다", Toast.LENGTH_SHORT)
+                            .show();
+                } else {
+                    // num2가 0이면 나누지 않는다.
+                    if (num2.trim().equals("0")) {
+                        Toast.makeText(getApplicationContext(),
+                                "0으로 나누면 안됩니다!", Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        result = Double.parseDouble(num1)
+                                / Double.parseDouble(num2);
+                        result = (int) (result * 10) / 10.0; // 소수점 아래 1자리까지만 출력
+                        textResult.setText("계산 결과 : " + result.toString(result));
+                    }
+                }
+
+            }
+        });
+
+        btnRem.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                num1 = edit1.getText().toString();
+                num2 = edit2.getText().toString();
+                // num1이나 num2가 비어 있다면
+                if (num1.trim().equals("") || num2.trim().equals("")) {
+                    Toast.makeText(getApplicationContext(), "입력 값이 비었습니다", 1000)
+                            .show();
+                } else {
+                    // num2가 0이면 나누지 않는다.
+                    if (num2.trim().equals("0")) {
+                        Toast.makeText(getApplicationContext(),
+                                "0으로 나머지 값 안됩니다!", 1000).show();
+                    } else {
+                        result = Double.parseDouble(num1)
+                                % Double.parseDouble(num2);
+                        textResult.setText("계산 결과 : " + result.toString());
+                    }
+                }
+
+            }
+        });
+
     }
 
-    @Override
-    public void onClick(View v) {
-
-        String strNum1 = edit1.getText().toString();
-        String strNum2 = edit2.getText().toString();
-
-        if(strNum1.length()==0 || strNum2.length()==0){
-            Toast.makeText(getApplicationContext(),"숫자를 넣어주세요", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            //
-        }
-        switch (v.getId()){
-            case R.id.BtnAdd:
-                break;
-            case R.id.BtnDiv:
-                break;
-            case R.id.BtnSub:
-                Double i1 = Double.parseDouble(edit1.getText().toString());
-                Double i2 = Double.parseDouble(edit2.getText().toString());
-                Double i3 = i1-i2;
-                textResult.setText(i3.toString());
-                break;
-            case R.id.BtnMul:
-                break;
-        }
-    }
-    //
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 }
